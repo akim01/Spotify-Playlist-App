@@ -10,8 +10,13 @@ function Playlist(props) {
         setPlaylistName(event.target.value);
     };
 
+    const handleSubmit = (event) => {
+        const playListUri = searchResults.map((track) => track.uri);
+        alert(playListUri);
+    };
+
     return (
-        <form>
+        <form onSubmit={handleSubmit}>
             <input 
               type="text" 
               aria-label="Name the playlist" 
