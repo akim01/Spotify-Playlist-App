@@ -1,15 +1,28 @@
 import React, {useState} from 'react';
+import Spotify from './Spotify'
 
-function SearchBar() {
+function SearchBar(props) {
     const [searchQuery, setSearchQuery] = useState('');
+    const {setSearchResults} = props;
 
-    //need to add handleSubmit function
+    //handle submit
+    const handleSearchQuery = (event) => {
+        setSearchQuery(event.target.value);
+    };
+
+    const handleSearch = async (e) => {
+        const results = await Spotify.search(searchQuery);
+        console.log(results);
+        setSearchResults(results);
+        e.preventDefault();
+    };
+
 
     return (
-        <form>
-            <input id="searchQuery" name="searchQuery" type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-            <button type="submit">Search</button>
-        </form>
+        <div>
+            <input id="searchQuery" name="searchQuery" type="text" value={searchQuery} onChange={handleSearchQuery} />
+            <button type="submit" onClick={handleSearch}>Search</button>
+        </div>
     );
 };
 

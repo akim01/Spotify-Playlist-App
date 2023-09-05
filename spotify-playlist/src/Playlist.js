@@ -1,9 +1,18 @@
 import React, {useState} from "react";
 import TrackList from './TrackList';
+import Spotify from "./Spotify";
 
 function Playlist(props) {
     const [playlistName, setPlaylistName] = useState('');
-    const {searchResults, removeSong} = props;
+    const {searchResults , songs, setSongs} = props;
+
+    const removeSong = (songIdToRemove) => {
+        console.log("Before", songs);
+        console.log(songIdToRemove);
+        setSongs((songs) =>
+          songs.filter((track) => track.id !== songIdToRemove));
+          console.log("After", songs);
+    }; 
 
     const handleTextChange = (event) => {
         console.log(event.target);
@@ -11,12 +20,12 @@ function Playlist(props) {
     };
 
     const handleSubmit = (event) => {
-        const playListUri = searchResults.map((track) => track.uri);
-        alert(playListUri);
+        const playListUris = searchResults.map((track) => track.uri);
+        Spotify.savePlaylist(playlistName, playListUris)
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <div onSubmit={handleSubmit}>
             <input 
               type="text" 
               aria-label="Name the playlist" 
@@ -25,8 +34,8 @@ function Playlist(props) {
               onChange={handleTextChange}
             />
             <TrackList searchResult={searchResults} removeSong={removeSong} />
-            <input type="submit" value="Save to Spotify" />
-        </form>
+            <button onClick={handleSubmit}>Save to Spotify</button>
+        </div>
     );
 };
 

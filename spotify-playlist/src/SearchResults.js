@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import Result from './Result';
 import styles from './SearchResults.module.css';
+import {uniqueId} from 'lodash';
 
 function SearchResults(props) {
     const {searchResults, addToPlayList} = props
@@ -15,7 +16,7 @@ function SearchResults(props) {
             <h2 className={styles.h2}>Results</h2>
             <ul className="searchResults">
                 {searchResults.map((sr) => (
-                  <li className={styles.songCard}>
+                  <li className={styles.songCard} key={uniqueId()}>
                     <Result searchResult={sr} />
                     <button onClick={()=> handleClick(sr)}>+</button>
                   </li>
